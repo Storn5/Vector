@@ -1,13 +1,16 @@
 #include "Engine.h"
 #include "OpenGL/OpenGLBackend.h"
+#include "DX11/DX11Backend.h"
 #include <stdio.h>
 
 Engine::Engine(const GraphicsBackendEnum& graphicsBackend, const GraphicsConfig& graphicsConfig)
 {
-
+	// Initialize appropriate graphics system depending on configuration
 	if (graphicsBackend == GraphicsBackendEnum::OPENGL)
 		graphicsSystem = std::make_unique<OpenGLBackend>(graphicsConfig);
-	else if (graphicsBackend == GraphicsBackendEnum::VULKAN || graphicsBackend == GraphicsBackendEnum::DX11 || graphicsBackend == GraphicsBackendEnum::DX12)
+	else if (graphicsBackend == GraphicsBackendEnum::DX11)
+		graphicsSystem = std::make_unique<DX11Backend>(graphicsConfig);
+	else if (graphicsBackend == GraphicsBackendEnum::VULKAN || graphicsBackend == GraphicsBackendEnum::DX12)
 	{
 		fprintf(stderr, "NOT IMPLEMENTED\n");
 		return;
@@ -22,7 +25,7 @@ Engine::Engine(const GraphicsBackendEnum& graphicsBackend, const GraphicsConfig&
 	isInitialized = true;
 }
 
-void Engine::playGame()
+void Engine::startGame()
 {
 	graphicsSystem->playGameLoop();
 }

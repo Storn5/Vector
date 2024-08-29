@@ -1,8 +1,8 @@
 #pragma once
-#include <string>
 
 struct GraphicsConfig
 {
-	std::string windowName;
+	const char* windowName;
+	bool isFullscreen;
 	unsigned int xRes = 0, yRes = 0;
 };

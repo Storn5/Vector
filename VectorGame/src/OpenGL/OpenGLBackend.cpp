@@ -16,9 +16,8 @@
 #endif
 
 OpenGLBackend::OpenGLBackend(const GraphicsConfig& config)
-    : m_window(nullptr)
+    : m_window(nullptr), m_config(config)
 {
-    m_config = config;
     // Initialize the library
     if (!glfwInit())
     {
@@ -30,8 +29,12 @@ OpenGLBackend::OpenGLBackend(const GraphicsConfig& config)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    GLFWmonitor* monitor = nullptr;
+    if (m_config.isFullscreen)
+        monitor = glfwGetPrimaryMonitor();
+
     // Create a windowed mode window and its OpenGL context
-    m_window = glfwCreateWindow(m_config.xRes, m_config.yRes, m_config.windowName.c_str(), NULL, NULL);
+    m_window = glfwCreateWindow(m_config.xRes, m_config.yRes, m_config.windowName, monitor, nullptr);
     if (!m_window)
     {
         fprintf(stderr, "Error creating a window in GLFW\n");

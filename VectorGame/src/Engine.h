@@ -18,5 +18,5 @@ public:
 
     Engine(const GraphicsBackendEnum& graphicsBackend, const GraphicsConfig& graphicsConfig);
     ~Engine() = default;
-    void playGame();
+    void startGame();
 };

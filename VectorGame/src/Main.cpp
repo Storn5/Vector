@@ -6,10 +6,12 @@
 
 int validateArgs(int argc, const char** argv, GraphicsBackendEnum& graphicsBackend, GraphicsConfig& config)
 {
+	// Default to OpenGL backend if no option chosen
 	if (argc < 2)
 	{
 		graphicsBackend = GraphicsBackendEnum::OPENGL;
 	}
+
 	for (int i = 1; i < argc; i++)
 	{
 		if (i == 1)
@@ -30,17 +32,20 @@ int validateArgs(int argc, const char** argv, GraphicsBackendEnum& graphicsBacke
 			}
 		}
 	}
+
 	return 0;
 }
 
 int main(int argc, const char** argv)
 {
+	// Configure settings from command-line args
 	auto graphicsBackend = GraphicsBackendEnum::NONE;
 	GraphicsConfig graphicsConfig
 	{
 		"Vector",	// Window name
-		1920,		// X resolution
-		1080		// Y resolution
+		false,		// Fullscreen
+		800,		// X resolution
+		600			// Y resolution
 	};
 	int errorCode = validateArgs(argc, argv, graphicsBackend, graphicsConfig);
 	if (errorCode != 0)
@@ -49,11 +54,14 @@ int main(int argc, const char** argv)
 		return 1;
 	}
 
+	// Initialize the game engine (including the graphics system, input system and audio system)
 	Engine engine(graphicsBackend, graphicsConfig);
 	if (!engine.isInitialized)
 	{
 		fprintf(stderr, "Game engine failed to initialize\n");
 		return 1;
 	}
-	engine.playGame();
+
+	// Start the game loop
+	engine.startGame();
 }
