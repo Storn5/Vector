@@ -7,7 +7,7 @@ A simple 3D game written in C++ with graphics implemented from scratch in Direct
 ### Graphics APIs
 🚧 OpenGL 4.6 graphics backend
 
-&nbsp;&nbsp;&nbsp;&nbsp;🔴 Win32 API window management as an alternative to GLFW
+&nbsp;&nbsp;&nbsp;&nbsp;🚧 Win32 API window management as an alternative to GLFW
 
 🚧 DirectX 11 graphics backend
 
@@ -26,7 +26,7 @@ A simple 3D game written in C++ with graphics implemented from scratch in Direct
 
 &nbsp;&nbsp;&nbsp;&nbsp;🟢 Switch between graphics backends
 
-&nbsp;&nbsp;&nbsp;&nbsp;🔴 Switch between GLFW and Win32 windows for OpenGL
+&nbsp;&nbsp;&nbsp;&nbsp;🚧 Switch between GLFW and Win32 windows for OpenGL
 
 🔴 Retro-style wireframe rendering
 
