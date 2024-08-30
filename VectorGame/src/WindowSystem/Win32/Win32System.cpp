@@ -4,10 +4,10 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
-#include "DX11/DX11Backend.h"
+#include "WindowSystem/Win32/Win32System.h"
 #include "Utils/Helpers.h"
 
-DX11Backend::DX11Backend(const GraphicsConfig& config)
+Win32System::Win32System(const GraphicsConfig& config)
     : m_config(config)
 {
 	WNDCLASSEX wc;
@@ -76,11 +76,9 @@ DX11Backend::DX11Backend(const GraphicsConfig& config)
 
 	// Don't hide the mouse cursor
 	ShowCursor(true);
-
-	return;
 }
 
-DX11Backend::~DX11Backend()
+Win32System::~Win32System()
 {
 	// Show the mouse cursor
 	ShowCursor(true);
@@ -132,114 +130,41 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-unsigned int DX11Backend::createShader(const unsigned int shaderType, const std::string& shaderSource)
-{
-	return 0;
-}
-
-unsigned int DX11Backend::createShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
-{
-	return 0;
-}
-
-unsigned int DX11Backend::parseShaderFile(const std::string& filename)
-{
-    enum class ShaderType
-    {
-        NONE = -1, VERTEX = 0, FRAGMENT = 1
-    };
-
-    std::ifstream filestream(filename);
-
-    if (!filestream)
-    {
-        fprintf(stderr, "Error parsing shader: file %s cannot be read\n", filename.c_str());
-        return 0;
-    }
-
-    std::string line;
-    std::stringstream ss[2];
-    ShaderType type = ShaderType::NONE;
-    while (getline(filestream, line))
-    {
-        if (line.find("#shader") != std::string::npos)
-        {
-            if (line.find("vertex") != std::string::npos)
-                type = ShaderType::VERTEX;
-            else if (line.find("fragment") != std::string::npos)
-                type = ShaderType::FRAGMENT;
-            else
-            {
-                fprintf(stderr, "Error parsing shader: invalid shader type\n");
-                return 0;
-            }
-        }
-        else
-            ss[(int)type] << line << "\n";
-    }
-
-    return createShaderProgram(ss[0].str(), ss[1].str());
-}
-
-bool DX11Backend::renderFrame()
-{
-	/*
-	// Check if the user pressed escape and wants to exit the application.
-	if (m_Input->IsKeyDown(VK_ESCAPE))
-	{
-		return false;
-	}
-
-	// Do the frame processing for the application class object.
-	bool result = m_Application->Frame();
-	if (!result)
-	{
-		return false;
-	}
-	*/
-
-	return true;
-}
-
-bool DX11Backend::isInitialized()
+bool Win32System::isInitialized()
 {
 	if (m_hWnd == nullptr)
+	{
+		fprintf(stderr, "Error creating a Win32 window handle\n");
 		return false;
+	}
 
 	return true;
 }
 
-void DX11Backend::playGameLoop()
+bool Win32System::preFrame()
 {
 	MSG msg;
-	bool done, result;
 
 	// Initialize the message structure
 	ZeroMemory(&msg, sizeof(MSG));
 
-	// Loop until there is a quit message from the window or the user
-	done = false;
-	while (!done)
+	// Handle Windows messages
+	if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 	{
-		// Handle Windows messages
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-
-		// If Windows signals to end the application then exit out
-		if (msg.message == WM_QUIT)
-		{
-			done = true;
-		}
-		else
-		{
-			result = renderFrame();
-			if (!result)
-			{
-				done = true;
-			}
-		}
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
 	}
+
+	// If Windows signals to end the application then exit out
+	if (msg.message == WM_QUIT)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool Win32System::postFrame()
+{
+	return true;
 }

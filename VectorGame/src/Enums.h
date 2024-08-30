@@ -2,9 +2,14 @@
 
 enum class GraphicsBackendEnum
 {
-	NONE = -1,
 	OPENGL = 0,
 	VULKAN = 1,
 	DX11 = 2,
 	DX12 = 3,
+};
+
+enum class WindowSystemEnum
+{
+	Win32 = 0,
+	GLFW = 1,
 };

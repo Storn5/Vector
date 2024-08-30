@@ -1,31 +1,57 @@
 #include "Engine.h"
-#include "OpenGL/OpenGLBackend.h"
-#include "DX11/DX11Backend.h"
-#include <stdio.h>
+#include "GraphicsSystem/OpenGL/OpenGLBackend.h"
+#include "GraphicsSystem/DX11/DX11Backend.h"
+#include "WindowSystem/Win32/Win32System.h"
+#include "WindowSystem/GLFW/GLFWSystem.h"
 
-Engine::Engine(const GraphicsBackendEnum& graphicsBackend, const GraphicsConfig& graphicsConfig)
+Engine::Engine(const GraphicsConfig& graphicsConfig)
 {
-	// Initialize appropriate graphics system depending on configuration
-	if (graphicsBackend == GraphicsBackendEnum::OPENGL)
-		graphicsSystem = std::make_unique<OpenGLBackend>(graphicsConfig);
-	else if (graphicsBackend == GraphicsBackendEnum::DX11)
-		graphicsSystem = std::make_unique<DX11Backend>(graphicsConfig);
-	else if (graphicsBackend == GraphicsBackendEnum::VULKAN || graphicsBackend == GraphicsBackendEnum::DX12)
+	// Initialize window system
+	switch (graphicsConfig.windowSystem)
 	{
+	case WindowSystemEnum::Win32:
+		m_windowSystem = std::make_unique<Win32System>(graphicsConfig);
+		break;
+	case WindowSystemEnum::GLFW:
+		m_windowSystem = std::make_unique<GLFWSystem>(graphicsConfig);
+		break;
+	default:
 		fprintf(stderr, "NOT IMPLEMENTED\n");
 		return;
 	}
 
-	if (!graphicsSystem->isInitialized())
+	// Initialize graphics system
+	switch (graphicsConfig.graphicsBackend)
 	{
-		fprintf(stderr, "Graphics system failed to initialize\n");
+	case GraphicsBackendEnum::OPENGL:
+		m_graphicsSystem = std::make_unique<OpenGLBackend>(graphicsConfig);
+		break;
+	case GraphicsBackendEnum::DX11:
+		m_graphicsSystem = std::make_unique<DX11Backend>(graphicsConfig);
+		break;
+	default:
+		fprintf(stderr, "NOT IMPLEMENTED\n");
 		return;
 	}
+}
 
-	isInitialized = true;
+bool Engine::isInitialized()
+{
+	return m_graphicsSystem->isInitialized() && m_windowSystem->isInitialized();
 }
 
 void Engine::startGame()
 {
-	graphicsSystem->playGameLoop();
+	// Main game loop
+	while (1)
+	{
+		if (!m_windowSystem->preFrame())
+			break;
+
+		if (!m_graphicsSystem->renderFrame())
+			break;
+
+		if (!m_windowSystem->postFrame())
+			break;
+	}
 }

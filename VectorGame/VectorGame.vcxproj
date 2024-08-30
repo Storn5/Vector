@@ -91,19 +91,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\DX11\DX11Backend.cpp" />
+    <ClCompile Include="src\GraphicsSystem\DX11\DX11Backend.cpp" />
     <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\OpenGL\OpenGLBackend.cpp" />
+    <ClCompile Include="src\WindowSystem\GLFW\GLFWSystem.cpp" />
+    <ClCompile Include="src\GraphicsSystem\OpenGL\OpenGLBackend.cpp" />
     <ClCompile Include="src\Utils\Helpers.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\WindowSystem\Win32\Win32System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\WindowSystem\GLFW\GLFWSystem.h" />
+    <ClInclude Include="src\ShaderFile.h" />
+    <ClInclude Include="src\WindowSystem\Win32\Win32System.h" />
+    <ClInclude Include="src\WindowSystem\WindowSystem.h" />
     <ClInclude Include="src\Config.h" />
-    <ClInclude Include="src\DX11\DX11Backend.h" />
+    <ClInclude Include="src\GraphicsSystem\DX11\DX11Backend.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\Enums.h" />
-    <ClInclude Include="src\OpenGL\OpenGLBackend.h" />
-    <ClInclude Include="src\GraphicsSystem.h" />
+    <ClInclude Include="src\GraphicsSystem\OpenGL\OpenGLBackend.h" />
+    <ClInclude Include="src\GraphicsSystem\GraphicsSystem.h" />
     <ClInclude Include="src\Utils\Helpers.h" />
   </ItemGroup>
   <ItemGroup>
