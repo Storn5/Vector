@@ -8,7 +8,7 @@ enum class GraphicsBackendEnum
 	DX12 = 3,
 };
 
-enum class WindowSystemEnum
+enum class ContextManagerEnum
 {
 	Win32 = 0,
 	GLFW = 1,

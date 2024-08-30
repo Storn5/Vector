@@ -3,10 +3,10 @@
 #include <stdio.h>
 #include <fstream>
 #include <sstream>
-#include "WindowSystem/GLFW/GLFWSystem.h"
+#include "ContextManager/GLFW/GLFWManager.h"
 #include "Utils/Helpers.h"
 
-GLFWSystem::GLFWSystem(const GraphicsConfig& config)
+GLFWManager::GLFWManager(const GraphicsConfig& config)
     : m_window(nullptr), m_config(config)
 {
 	// Initialize the library
@@ -44,12 +44,12 @@ GLFWSystem::GLFWSystem(const GraphicsConfig& config)
 	glfwSwapInterval(1);
 }
 
-GLFWSystem::~GLFWSystem()
+GLFWManager::~GLFWManager()
 {
 	glfwTerminate();
 }
 
-bool GLFWSystem::isInitialized()
+bool GLFWManager::isInitialized()
 {
 	if (m_window == nullptr)
 		return false;
@@ -64,13 +64,13 @@ bool GLFWSystem::isInitialized()
 	return true;
 }
 
-bool GLFWSystem::preFrame()
+bool GLFWManager::preFrame()
 {
     // Loop until the user closes the window
 	return !glfwWindowShouldClose(m_window);
 }
 
-bool GLFWSystem::postFrame()
+bool GLFWManager::postFrame()
 {
 	// Swap front and back buffers
 	glfwSwapBuffers(m_window);

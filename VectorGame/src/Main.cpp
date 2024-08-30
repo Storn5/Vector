@@ -25,23 +25,18 @@ int validateArgs(int argc, const char** argv, GraphicsConfig& graphicsConfig)
 
 	if (argc > 2)
 	{
-		if (strcmp(argv[2], "win32") == 0)
-			graphicsConfig.windowSystem = WindowSystemEnum::Win32;
-		else if (strcmp(argv[2], "glfw") == 0)
-			graphicsConfig.windowSystem = WindowSystemEnum::GLFW;
+		if (strcmp(argv[2], "-f") == 0)
+			graphicsConfig.isFullscreen = true;
 		else
 		{
-			fprintf(stderr, "Error parsing second command-line argument. Options: win32, glfw (only for OpenGL). Default is glfw\n");
 			return 1;
 		}
 	}
-	
-	// Check incompatible settings
-	if (graphicsConfig.windowSystem == WindowSystemEnum::GLFW && graphicsConfig.graphicsBackend != GraphicsBackendEnum::OPENGL)
-	{
-		fprintf(stderr, "Error parsing second command-line argument. The glfw option is only available for OpenGL\n");
-		return 1;
-	}
+
+	if (graphicsConfig.graphicsBackend == GraphicsBackendEnum::OPENGL)
+		graphicsConfig.contextManager == ContextManagerEnum::GLFW;
+	else
+		graphicsConfig.contextManager = ContextManagerEnum::Win32;
 	
 	return 0;
 }
@@ -52,9 +47,9 @@ int main(int argc, const char** argv)
 	GraphicsConfig graphicsConfig
 	{
 		GraphicsBackendEnum::OPENGL,
-		WindowSystemEnum::GLFW,
+		ContextManagerEnum::GLFW,
 		"Vector",	// Window name
-		true,		// Fullscreen
+		false,		// Fullscreen
 		800,		// X resolution
 		600			// Y resolution
 	};
@@ -62,11 +57,11 @@ int main(int argc, const char** argv)
 	int errorCode = validateArgs(argc, argv, graphicsConfig);
 	if (errorCode != 0)
 	{
-		fprintf(stderr, "Error parsing commandline arguments. Usage: Vector.exe [opengl|vulkan|dx11|dx12] [win32|glfw]\n");
+		fprintf(stderr, "Error parsing commandline arguments. Usage: Vector.exe [opengl|vulkan|dx11|dx12] [-f]\n");
 		return 1;
 	}
 
-	// Initialize the game engine (including the window, graphics system, input system and audio system)
+	// Initialize the game engine (including the window manager, graphics system, input system and audio system)
 	Engine engine(graphicsConfig);
 	if (!engine.isInitialized())
 	{

@@ -1,19 +1,20 @@
 #include "Engine.h"
+#include "Enums.h"
 #include "GraphicsSystem/OpenGL/OpenGLBackend.h"
 #include "GraphicsSystem/DX11/DX11Backend.h"
-#include "WindowSystem/Win32/Win32System.h"
-#include "WindowSystem/GLFW/GLFWSystem.h"
+#include "ContextManager/Win32/Win32Manager.h"
+#include "ContextManager/GLFW/GLFWManager.h"
 
 Engine::Engine(const GraphicsConfig& graphicsConfig)
 {
 	// Initialize window system
-	switch (graphicsConfig.windowSystem)
+	switch (graphicsConfig.contextManager)
 	{
-	case WindowSystemEnum::Win32:
-		m_windowSystem = std::make_unique<Win32System>(graphicsConfig);
+	case ContextManagerEnum::Win32:
+		m_contextManager = std::make_unique<Win32Manager>(graphicsConfig);
 		break;
-	case WindowSystemEnum::GLFW:
-		m_windowSystem = std::make_unique<GLFWSystem>(graphicsConfig);
+	case ContextManagerEnum::GLFW:
+		m_contextManager = std::make_unique<GLFWManager>(graphicsConfig);
 		break;
 	default:
 		fprintf(stderr, "NOT IMPLEMENTED\n");
@@ -37,7 +38,7 @@ Engine::Engine(const GraphicsConfig& graphicsConfig)
 
 bool Engine::isInitialized()
 {
-	return m_graphicsSystem->isInitialized() && m_windowSystem->isInitialized();
+	return m_graphicsSystem->isInitialized() && m_contextManager->isInitialized();
 }
 
 void Engine::startGame()
@@ -45,13 +46,13 @@ void Engine::startGame()
 	// Main game loop
 	while (1)
 	{
-		if (!m_windowSystem->preFrame())
+		if (!m_contextManager->preFrame())
 			break;
 
 		if (!m_graphicsSystem->renderFrame())
 			break;
 
-		if (!m_windowSystem->postFrame())
+		if (!m_contextManager->postFrame())
 			break;
 	}
 }

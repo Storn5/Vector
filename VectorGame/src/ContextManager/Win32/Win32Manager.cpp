@@ -4,10 +4,10 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
-#include "WindowSystem/Win32/Win32System.h"
+#include "ContextManager/Win32/Win32Manager.h"
 #include "Utils/Helpers.h"
 
-Win32System::Win32System(const GraphicsConfig& config)
+Win32Manager::Win32Manager(const GraphicsConfig& config)
     : m_config(config)
 {
 	WNDCLASSEX wc;
@@ -78,7 +78,7 @@ Win32System::Win32System(const GraphicsConfig& config)
 	ShowCursor(true);
 }
 
-Win32System::~Win32System()
+Win32Manager::~Win32Manager()
 {
 	// Show the mouse cursor
 	ShowCursor(true);
@@ -130,7 +130,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-bool Win32System::isInitialized()
+bool Win32Manager::isInitialized()
 {
 	if (m_hWnd == nullptr)
 	{
@@ -141,7 +141,7 @@ bool Win32System::isInitialized()
 	return true;
 }
 
-bool Win32System::preFrame()
+bool Win32Manager::preFrame()
 {
 	MSG msg;
 
@@ -164,7 +164,7 @@ bool Win32System::preFrame()
 	return true;
 }
 
-bool Win32System::postFrame()
+bool Win32Manager::postFrame()
 {
 	return true;
 }

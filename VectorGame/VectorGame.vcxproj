@@ -93,17 +93,17 @@
   <ItemGroup>
     <ClCompile Include="src\GraphicsSystem\DX11\DX11Backend.cpp" />
     <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\WindowSystem\GLFW\GLFWSystem.cpp" />
+    <ClCompile Include="src\ContextManager\GLFW\GLFWManager.cpp" />
     <ClCompile Include="src\GraphicsSystem\OpenGL\OpenGLBackend.cpp" />
     <ClCompile Include="src\Utils\Helpers.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\WindowSystem\Win32\Win32System.cpp" />
+    <ClCompile Include="src\ContextManager\Win32\Win32Manager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\WindowSystem\GLFW\GLFWSystem.h" />
+    <ClInclude Include="src\ContextManager\GLFW\GLFWManager.h" />
     <ClInclude Include="src\ShaderFile.h" />
-    <ClInclude Include="src\WindowSystem\Win32\Win32System.h" />
-    <ClInclude Include="src\WindowSystem\WindowSystem.h" />
+    <ClInclude Include="src\ContextManager\Win32\Win32Manager.h" />
+    <ClInclude Include="src\ContextManager\ContextManager.h" />
     <ClInclude Include="src\Config.h" />
     <ClInclude Include="src\GraphicsSystem\DX11\DX11Backend.h" />
     <ClInclude Include="src\Engine.h" />

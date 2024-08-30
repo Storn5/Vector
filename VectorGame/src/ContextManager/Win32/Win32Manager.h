@@ -4,10 +4,10 @@
 
 #include <string>
 #include <Windows.h>
-#include "WindowSystem/WindowSystem.h"
+#include "ContextManager/ContextManager.h"
 #include "Config.h"
 
-class Win32System : public WindowSystem
+class Win32Manager : public ContextManager
 {
 private:
     GraphicsConfig m_config;
@@ -15,8 +15,8 @@ private:
     HWND m_hWnd;
 
 public:
-    Win32System(const GraphicsConfig& config);
-    ~Win32System();
+    Win32Manager(const GraphicsConfig& config);
+    ~Win32Manager();
     bool isInitialized();
     bool preFrame();
     bool postFrame();

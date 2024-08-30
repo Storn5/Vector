@@ -1,6 +1,6 @@
 #pragma once
 
-class WindowSystem
+class ContextManager
 {
 public:
 	virtual bool preFrame() = 0;

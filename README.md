@@ -5,28 +5,32 @@ A simple 3D game written in C++ with graphics implemented from scratch in Direct
 🟢 - done, 🚧 - WIP, 🔴 - planned
 
 ### Graphics APIs
-🚧 OpenGL 4.6 graphics backend
+🚧 OpenGL 4.6 graphics backend (cross-platform)
 
-&nbsp;&nbsp;&nbsp;&nbsp;🚧 Win32 API window management as an alternative to GLFW
+🚧 DirectX 11 graphics backend (Windows-only)
 
-🚧 DirectX 11 graphics backend
+🔴 DirectX 12 graphics backend (Windows-only)
 
-🔴 DirectX 12 graphics backend
-
-🔴 Vulkan graphics backend
+🔴 Vulkan graphics backend (cross-platform)
 
 ### Game Engine
-🚧 Basic engine functionality (wrapper around graphics APIs to create a window & render things)
+🚧 Basic engine functionality (wrapper around graphics APIs)
 
-🚧 Configuring settigns
+&nbsp;&nbsp;&nbsp;&nbsp;🟢 Creating/closing a window
 
-&nbsp;&nbsp;&nbsp;&nbsp;🟢 Fullscreen
+&nbsp;&nbsp;&nbsp;&nbsp;🚧 Loading shaders
 
-&nbsp;&nbsp;&nbsp;&nbsp;🔴 Resolution
+&nbsp;&nbsp;&nbsp;&nbsp;🔴 Creating/moving/destroying 3D objects
+
+&nbsp;&nbsp;&nbsp;&nbsp;🚧 Graphics loop (Rendering all objects in 3D environment)
+
+🟢 Configuring settings (command-line args)
 
 &nbsp;&nbsp;&nbsp;&nbsp;🟢 Switch between graphics backends
 
-&nbsp;&nbsp;&nbsp;&nbsp;🚧 Switch between GLFW and Win32 windows for OpenGL
+&nbsp;&nbsp;&nbsp;&nbsp;🟢 Fullscreen/windowed mode
+
+&nbsp;&nbsp;&nbsp;&nbsp;🔴 Resolution
 
 🔴 Retro-style wireframe rendering
 

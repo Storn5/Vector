@@ -30,10 +30,10 @@
     <ClCompile Include="src\GraphicsSystem\DX11\DX11Backend.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\WindowSystem\Win32\Win32System.cpp">
+    <ClCompile Include="src\ContextManager\Win32\Win32Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\WindowSystem\GLFW\GLFWSystem.cpp">
+    <ClCompile Include="src\ContextManager\GLFW\GLFWManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,13 +59,13 @@
     <ClInclude Include="src\GraphicsSystem\DX11\DX11Backend.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\WindowSystem\WindowSystem.h">
+    <ClInclude Include="src\ContextManager\ContextManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\WindowSystem\Win32\Win32System.h">
+    <ClInclude Include="src\ContextManager\Win32\Win32Manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\WindowSystem\GLFW\GLFWSystem.h">
+    <ClInclude Include="src\ContextManager\GLFW\GLFWManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ShaderFile.h">

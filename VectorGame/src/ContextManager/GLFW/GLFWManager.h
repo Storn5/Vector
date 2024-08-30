@@ -4,18 +4,18 @@
 
 #include <string>
 #include <glfw3.h>
-#include "WindowSystem/WindowSystem.h"
+#include "ContextManager/ContextManager.h"
 #include "Config.h"
 
-class GLFWSystem : public WindowSystem
+class GLFWManager : public ContextManager
 {
 private:
     GraphicsConfig m_config;
     GLFWwindow* m_window;
 
 public:
-    GLFWSystem(const GraphicsConfig& config);
-    ~GLFWSystem();
+    GLFWManager(const GraphicsConfig& config);
+    ~GLFWManager();
     bool isInitialized();
     bool preFrame();
     bool postFrame();
