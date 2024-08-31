@@ -9,7 +9,6 @@
 #endif
 
 #include <cmath>
-#include <stdio.h>
 #include "GraphicsSystem/OpenGL/OpenGLBackend.h"
 #include "Utils/Helpers.h"
 
@@ -39,20 +38,23 @@ bool OpenGLBackend::testOpenGL()
     {
         isOk = false;
         fprintf(stderr, "OpenGL error\n");
-        if (glError == GL_STACK_OVERFLOW)
-            fprintf(stderr, "Stack overflow\n");
-        else if (glError == GL_STACK_UNDERFLOW)
-            fprintf(stderr, "Stack underflow\n");
-        else if (glError == GL_OUT_OF_MEMORY)
-            fprintf(stderr, "There is not enough memory left to execute the command\n");
-        else if (glError == GL_INVALID_FRAMEBUFFER_OPERATION)
-            fprintf(stderr, "The framebuffer object is not complete\n");
-        else if (glError == GL_INVALID_OPERATION)
-            fprintf(stderr, "The specified operation is not allowed in the current state\n");
-        else if (glError == GL_INVALID_VALUE)
-            fprintf(stderr, "A numeric argument is out of range\n");
-        else if (glError == GL_INVALID_ENUM)
-            fprintf(stderr, "An unacceptable value is specified for an enum argument\n");
+        switch (glError)
+        {
+        case GL_STACK_OVERFLOW:
+            fprintf(stderr, "Stack overflow\n"); break;
+        case GL_STACK_UNDERFLOW:
+            fprintf(stderr, "Stack underflow\n"); break;
+        case GL_OUT_OF_MEMORY:
+            fprintf(stderr, "There is not enough memory left to execute the command\n"); break;
+        case GL_INVALID_FRAMEBUFFER_OPERATION:
+            fprintf(stderr, "The framebuffer object is not complete\n"); break;
+        case GL_INVALID_OPERATION:
+            fprintf(stderr, "The specified operation is not allowed in the current state\n"); break;
+        case GL_INVALID_VALUE:
+            fprintf(stderr, "A numeric argument is out of range\n"); break;
+        case GL_INVALID_ENUM:
+            fprintf(stderr, "An unacceptable value is specified for an enum argument\n"); break;
+        }
     }
     return isOk;
 }

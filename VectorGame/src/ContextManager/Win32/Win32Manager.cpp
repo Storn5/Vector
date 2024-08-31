@@ -1,13 +1,7 @@
-#define _USE_MATH_DEFINES
-#include <cmath>
-#include <stdio.h>
-#include <fstream>
-#include <sstream>
-#include <chrono>
 #include "ContextManager/Win32/Win32Manager.h"
-#include "Utils/Helpers.h"
+#include <fstream>
 
-Win32Manager::Win32Manager(const GraphicsConfig& config)
+Win32Manager::Win32Manager(const GraphicsConfig& config, HWND* hWnd)
     : m_config(config)
 {
 	WNDCLASSEX wc;
@@ -69,6 +63,7 @@ Win32Manager::Win32Manager(const GraphicsConfig& config)
 	m_hWnd = CreateWindowEx(WS_EX_APPWINDOW, m_config.windowName, m_config.windowName,
 		WS_CLIPSIBLINGS | WS_CLIPCHILDREN | wStyle | WS_VISIBLE,
 		posX, posY, m_config.xRes, m_config.yRes, NULL, NULL, m_hInstance, NULL);
+	*hWnd = m_hWnd;
 
 	// Set focus
 	SetForegroundWindow(m_hWnd);

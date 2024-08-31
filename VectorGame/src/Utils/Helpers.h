@@ -1,7 +1,4 @@
 #pragma once
-#include <chrono>
-#include <string>
-#include "ShaderFile.h"
 
 #ifdef _DEBUG
 #define ASSERT(x) if(!(x)) { logErrorLine(#x, __FILE__, __LINE__); __debugbreak(); }
@@ -9,6 +6,10 @@
 #define ASSERT(x) x
 #endif
 
-double secondsBetween(const std::chrono::steady_clock::time_point & point1, const std::chrono::steady_clock::time_point & point2);
+#include "ShaderFile.h"
+#include <chrono>
+#include <string>
+
+double secondsBetween(const std::chrono::steady_clock::time_point& point1, const std::chrono::steady_clock::time_point& point2);
 void logErrorLine(const char* function, const char* file, int line);
-ShaderFile parseShaderFile(const std::string & filename);
+ShaderFile parseShaderFile(const std::string& filename);

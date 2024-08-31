@@ -1,8 +1,3 @@
-#define _USE_MATH_DEFINES
-#include <cmath>
-#include <stdio.h>
-#include <fstream>
-#include <sstream>
 #include "ContextManager/GLFW/GLFWManager.h"
 #include "Utils/Helpers.h"
 

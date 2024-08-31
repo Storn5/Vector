@@ -1,8 +1,6 @@
 #include "Engine.h"
 #include "Enums.h"
 #include "Config.h"
-#include <stdio.h>
-#include <string.h>
 
 int validateArgs(int argc, const char** argv, GraphicsConfig& graphicsConfig)
 {
@@ -51,7 +49,10 @@ int main(int argc, const char** argv)
 		"Vector",	// Window name
 		false,		// Fullscreen
 		800,		// X resolution
-		600			// Y resolution
+		600,		// Y resolution
+		false,		// V-Sync
+		0.3f,		// Near clipping plane
+		1000.0f		// Far clipping plane
 	};
 	// Read settings from command-line args
 	int errorCode = validateArgs(argc, argv, graphicsConfig);

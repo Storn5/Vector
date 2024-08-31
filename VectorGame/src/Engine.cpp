@@ -11,7 +11,7 @@ Engine::Engine(const GraphicsConfig& graphicsConfig)
 	switch (graphicsConfig.contextManager)
 	{
 	case ContextManagerEnum::Win32:
-		m_contextManager = std::make_unique<Win32Manager>(graphicsConfig);
+		m_contextManager = std::make_unique<Win32Manager>(graphicsConfig, &m_hWnd);
 		break;
 	case ContextManagerEnum::GLFW:
 		m_contextManager = std::make_unique<GLFWManager>(graphicsConfig);
@@ -28,9 +28,10 @@ Engine::Engine(const GraphicsConfig& graphicsConfig)
 		m_graphicsSystem = std::make_unique<OpenGLBackend>(graphicsConfig);
 		break;
 	case GraphicsBackendEnum::DX11:
-		m_graphicsSystem = std::make_unique<DX11Backend>(graphicsConfig);
+		m_graphicsSystem = std::make_unique<DX11Backend>(graphicsConfig, m_hWnd);
 		break;
 	default:
+		return;
 		fprintf(stderr, "NOT IMPLEMENTED\n");
 		return;
 	}
