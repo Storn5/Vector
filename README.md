@@ -7,7 +7,13 @@ A simple 3D game written in C++ with graphics implemented from scratch in Direct
 ### Graphics APIs
 🚧 OpenGL 4.6 graphics backend (cross-platform)
 
+&nbsp;&nbsp;&nbsp;&nbsp;🔴 GPU selection similar to the DirectX one
+
 🚧 DirectX 11 graphics backend (Windows-only)
+
+&nbsp;&nbsp;&nbsp;&nbsp;🔴 Fix nVidia GPU not allowing selecting the screen
+
+&nbsp;&nbsp;&nbsp;&nbsp;🔴 Make the GPU selection happen in the window instead of the terminal
 
 🔴 DirectX 12 graphics backend (Windows-only)
 
@@ -26,11 +32,15 @@ A simple 3D game written in C++ with graphics implemented from scratch in Direct
 
 🟢 Configuring settings (command-line args)
 
-&nbsp;&nbsp;&nbsp;&nbsp;🟢 Switch between graphics backends
+&nbsp;&nbsp;&nbsp;&nbsp;🟢 Switch between graphics backends at startup
+
+&nbsp;&nbsp;&nbsp;&nbsp;🔴 Switch graphics backends at runtime
 
 &nbsp;&nbsp;&nbsp;&nbsp;🟢 Fullscreen/windowed mode
 
 &nbsp;&nbsp;&nbsp;&nbsp;🔴 Resolution
+
+🔴 Replace GLFW and Win32 with a common cross-platform windowing API (SDL, SFML, QT?)
 
 🔴 Retro-style wireframe rendering
 
