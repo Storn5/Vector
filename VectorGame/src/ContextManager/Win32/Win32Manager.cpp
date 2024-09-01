@@ -1,7 +1,7 @@
 #include "ContextManager/Win32/Win32Manager.h"
 #include <fstream>
 
-Win32Manager::Win32Manager(const GraphicsConfig& config, HWND* hWnd)
+Win32Manager::Win32Manager(const GraphicsConfig& config)
     : m_config(config)
 {
 	WNDCLASSEX wc;
@@ -63,7 +63,6 @@ Win32Manager::Win32Manager(const GraphicsConfig& config, HWND* hWnd)
 	m_hWnd = CreateWindowEx(WS_EX_APPWINDOW, m_config.windowName, m_config.windowName,
 		WS_CLIPSIBLINGS | WS_CLIPCHILDREN | wStyle | WS_VISIBLE,
 		posX, posY, m_config.xRes, m_config.yRes, NULL, NULL, m_hInstance, NULL);
-	*hWnd = m_hWnd;
 
 	// Set focus
 	SetForegroundWindow(m_hWnd);
@@ -162,4 +161,9 @@ bool Win32Manager::preFrame()
 bool Win32Manager::postFrame()
 {
 	return true;
+}
+
+HWND Win32Manager::getWindowHandle() const
+{
+	return m_hWnd;
 }

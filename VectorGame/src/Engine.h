@@ -21,5 +21,4 @@ private:
 
     std::unique_ptr<GraphicsSystem> m_graphicsSystem;
     std::unique_ptr<ContextManager> m_contextManager;
-    HWND m_hWnd;
 };

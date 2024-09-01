@@ -1,10 +1,11 @@
 #include "GraphicsSystem/DX11/DX11Backend.h"
+#include "ContextManager/Win32/Win32Manager.h"
 #include "Utils/Helpers.h"
 #include <Config.h>
 #include <string>
 #include <vector>
 
-DX11Backend::DX11Backend(const GraphicsConfig& config, const HWND& hWnd)
+DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& contextManager)
     : m_config(config)
 {
 	// Initialize all pointers & other variables needed for DirectX initialization
@@ -166,7 +167,7 @@ DX11Backend::DX11Backend(const GraphicsConfig& config, const HWND& hWnd)
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 
 	// Set the handle for the window to render to
-	swapChainDesc.OutputWindow = hWnd;
+	swapChainDesc.OutputWindow = ((const Win32Manager&)contextManager).getWindowHandle();
 
 	// Turn multisampling off
 	swapChainDesc.SampleDesc.Count = 1;

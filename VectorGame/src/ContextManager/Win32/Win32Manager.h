@@ -9,11 +9,12 @@
 class Win32Manager : public ContextManager
 {
 public:
-    Win32Manager(const GraphicsConfig& config, HWND* hWnd);
+    Win32Manager(const GraphicsConfig& config);
     ~Win32Manager();
     bool isInitialized();
     bool preFrame();
     bool postFrame();
+    HWND getWindowHandle() const;
 
 private:
     Win32Manager(const Win32Manager&) = delete;

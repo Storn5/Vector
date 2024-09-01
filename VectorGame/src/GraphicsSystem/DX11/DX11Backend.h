@@ -1,13 +1,10 @@
 #pragma once
 
-#pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "dxgi.lib")
-#pragma comment(lib, "d3dcompiler.lib")
-
 #define WIN32_LEAN_AND_MEAN
 
 #include "Config.h"
 #include "GraphicsSystem/GraphicsSystem.h"
+#include "ContextManager/ContextManager.h"
 #include <string>
 #include <Windows.h>
 #include <d3d11.h>
@@ -16,7 +13,7 @@
 class DX11Backend : public GraphicsSystem
 {
 public:
-    DX11Backend(const GraphicsConfig& config, const HWND& hWnd);
+    DX11Backend(const GraphicsConfig& config, const ContextManager& contextManager);
     ~DX11Backend();
     bool isInitialized();
     bool renderFrame();
