@@ -91,10 +91,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\GraphicsSystem\DX11\DX11Backend.cpp" />
+    <ClCompile Include="src\Renderer\DX11\DX11Renderer.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\ContextManager\GLFW\GLFWManager.cpp" />
-    <ClCompile Include="src\GraphicsSystem\OpenGL\OpenGLBackend.cpp" />
+    <ClCompile Include="src\Renderer\OpenGL\OpenGLRenderer.cpp" />
     <ClCompile Include="src\Utils\Helpers.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ContextManager\Win32\Win32Manager.cpp" />
@@ -105,11 +105,11 @@
     <ClInclude Include="src\ContextManager\Win32\Win32Manager.h" />
     <ClInclude Include="src\ContextManager\ContextManager.h" />
     <ClInclude Include="src\Config.h" />
-    <ClInclude Include="src\GraphicsSystem\DX11\DX11Backend.h" />
+    <ClInclude Include="src\Renderer\DX11\DX11Renderer.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\Enums.h" />
-    <ClInclude Include="src\GraphicsSystem\OpenGL\OpenGLBackend.h" />
-    <ClInclude Include="src\GraphicsSystem\GraphicsSystem.h" />
+    <ClInclude Include="src\Renderer\OpenGL\OpenGLRenderer.h" />
+    <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Utils\Helpers.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,11 @@
-#include "GraphicsSystem/DX11/DX11Backend.h"
+#include "Renderer/DX11/DX11Renderer.h"
 #include "ContextManager/Win32/Win32Manager.h"
 #include "Utils/Helpers.h"
 #include <Config.h>
 #include <string>
 #include <vector>
 
-DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& contextManager)
+DX11Renderer::DX11Renderer(const GraphicsConfig& config, const ContextManager& contextManager)
     : m_config(config)
 {
 	// Initialize all pointers & other variables needed for DirectX initialization
@@ -316,9 +316,9 @@ DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& con
 	m_orthoMatrix = DirectX::XMMatrixOrthographicLH((float)m_config.xRes, (float)m_config.yRes, m_config.nearPlane, m_config.farPlane);
 }
 
-DX11Backend::~DX11Backend()
+DX11Renderer::~DX11Renderer()
 {
-	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
+	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception
 	if (m_swapChain)
 	{
 		m_swapChain->SetFullscreenState(false, nullptr);
@@ -373,113 +373,90 @@ DX11Backend::~DX11Backend()
 	}
 }
 
-void DX11Backend::BeginScene(float red, float green, float blue, float alpha)
+void DX11Renderer::startFrame(float red, float green, float blue, float alpha)
 {
-	float color[4];
+	float color[4] = { red, green, blue, alpha };
 
-
-	// Setup the color to clear the buffer to
-	color[0] = red;
-	color[1] = green;
-	color[2] = blue;
-	color[3] = alpha;
-
-	// Clear the back buffer
+	// Clear the back buffer with background color
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView, color);
 
 	// Clear the depth buffer
 	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
-void DX11Backend::EndScene()
+void DX11Renderer::endFrame()
 {
-	// Present the back buffer to the screen since rendering is complete
+	// Swap the back buffer to screen, lock to refresh rate if vSync enabled
 	if (m_config.vSync)
-	{
-		// Lock to screen refresh rate
 		m_swapChain->Present(1, 0);
-	}
 	else
-	{
-		// Present as fast as possible
 		m_swapChain->Present(0, 0);
-	}
 }
 
-ID3D11Device* DX11Backend::GetDevice()
+ID3D11Device* DX11Renderer::GetDevice()
 {
 	return m_device;
 }
 
-
-ID3D11DeviceContext* DX11Backend::GetDeviceContext()
+ID3D11DeviceContext* DX11Renderer::GetDeviceContext()
 {
 	return m_deviceContext;
 }
 
-void DX11Backend::GetProjectionMatrix(DirectX::XMMATRIX& projectionMatrix)
+void DX11Renderer::GetProjectionMatrix(DirectX::XMMATRIX& projectionMatrix)
 {
 	projectionMatrix = m_projectionMatrix;
-	return;
 }
 
-
-void DX11Backend::GetWorldMatrix(DirectX::XMMATRIX& worldMatrix)
+void DX11Renderer::GetWorldMatrix(DirectX::XMMATRIX& worldMatrix)
 {
 	worldMatrix = m_worldMatrix;
-	return;
 }
 
-
-void DX11Backend::GetOrthoMatrix(DirectX::XMMATRIX& orthoMatrix)
+void DX11Renderer::GetOrthoMatrix(DirectX::XMMATRIX& orthoMatrix)
 {
 	orthoMatrix = m_orthoMatrix;
 	return;
 }
 
-void DX11Backend::GetVideoCardInfo(char* cardName, int& memory)
+void DX11Renderer::GetVideoCardInfo(char* cardName, int& memory)
 {
 	strcpy_s(cardName, GPU_DESC_LENGTH, m_gpuDescription);
 	memory = m_gpuMemory;
 	return;
 }
 
-void DX11Backend::SetBackBufferRenderTarget()
+void DX11Renderer::SetBackBufferRenderTarget()
 {
 	// Bind the render target view and depth stencil buffer to the output render pipeline.
 	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
-
-	return;
 }
 
-
-void DX11Backend::ResetViewport()
+void DX11Renderer::ResetViewport()
 {
 	// Set the viewport.
 	m_deviceContext->RSSetViewports(1, &m_viewport);
-
-	return;
 }
 
-unsigned int DX11Backend::createShader(const unsigned int shaderType, const std::string& shaderSource)
+unsigned int DX11Renderer::createShader(const unsigned int shaderType, const std::string& shaderSource)
 {
 	return 0;
 }
 
-unsigned int DX11Backend::createShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
+unsigned int DX11Renderer::createShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
 {
 	return 0;
 }
 
-bool DX11Backend::renderFrame()
+bool DX11Renderer::renderFrame()
 {
-	BeginScene(0.1f, 0.8f, 0.2f, 1.0f);
-	EndScene();
+	startFrame(0.1f, 0.8f, 0.2f, 1.0f);
+	endFrame();
 
 	return true;
 }
 
-bool DX11Backend::isInitialized()
+bool DX11Renderer::isInitialized()
 {
 	return true;
 }

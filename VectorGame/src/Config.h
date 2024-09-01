@@ -5,7 +5,7 @@
 struct GraphicsConfig
 {
 	const char* windowName;
-	GraphicsBackendEnum graphicsBackend;
+	RendererEnum renderer;
 	bool isFullscreen;
 	bool vSync;
 	unsigned int xRes = 0, yRes = 0;

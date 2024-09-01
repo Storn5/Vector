@@ -1,3 +1,5 @@
+#define WIN32_LEAN_AND_MEAN
+
 #define DEFAULT_FULLSCREEN false
 #define DEFAULT_VSYNC false
 #define DEFAULT_XRES 800
@@ -6,11 +8,12 @@
 #define DEFAULT_NEAR_PLANE 0.3f
 #define DEFAULT_FAR_PLANE 1000.0f
 
+#include "Config.h"
 #include "Engine.h"
 #include "Enums.h"
-#include "Config.h"
-#include <string>
+#include <Windows.h>
 #include <stdexcept>
+#include <string>
 
 // Indicates to hybrid graphics systems to prefer the discrete part by default
 extern "C"
@@ -40,13 +43,13 @@ int parseArgs(int argc, const char** argv, GraphicsConfig& graphicsConfig)
 	if (argc > 1)
 	{
 		if (strcmp(argv[1], "opengl") == 0)
-			graphicsConfig.graphicsBackend = GraphicsBackendEnum::OPENGL;
+			graphicsConfig.renderer = RendererEnum::OPENGL;
 		else if (strcmp(argv[1], "vulkan") == 0)
-			graphicsConfig.graphicsBackend = GraphicsBackendEnum::VULKAN;
+			graphicsConfig.renderer = RendererEnum::VULKAN;
 		else if (strcmp(argv[1], "dx11") == 0)
-			graphicsConfig.graphicsBackend = GraphicsBackendEnum::DX11;
+			graphicsConfig.renderer = RendererEnum::DX11;
 		else if (strcmp(argv[1], "dx12") == 0)
-			graphicsConfig.graphicsBackend = GraphicsBackendEnum::DX12;
+			graphicsConfig.renderer = RendererEnum::DX12;
 		else
 		{
 			fprintf(stderr, "Error parsing first command-line argument. Options: opengl, vulkan, dx11, dx12. Default is opengl\n");
@@ -97,15 +100,15 @@ int main(int argc, const char** argv)
 	// Configure default settings
 	GraphicsConfig graphicsConfig
 	{
-		"Vector",						// Window name
-		GraphicsBackendEnum::OPENGL,	// Graphics API
-		DEFAULT_FULLSCREEN,				// Fullscreen
-		DEFAULT_VSYNC,					// V-Sync
-		DEFAULT_XRES,					// X resolution
-		DEFAULT_YRES,					// Y resolution
-		DEFAULT_REFRESH_RATE,			// Refresh rate
-		DEFAULT_NEAR_PLANE,				// Near clipping plane
-		DEFAULT_FAR_PLANE				// Far clipping plane
+		"Vector",				// Window name
+		RendererEnum::OPENGL,	// Graphics API
+		DEFAULT_FULLSCREEN,		// Fullscreen
+		DEFAULT_VSYNC,			// V-Sync
+		DEFAULT_XRES,			// X resolution
+		DEFAULT_YRES,			// Y resolution
+		DEFAULT_REFRESH_RATE,	// Refresh rate
+		DEFAULT_NEAR_PLANE,		// Near clipping plane
+		DEFAULT_FAR_PLANE		// Far clipping plane
 	};
 	// Read settings from command-line args
 	int errorCode = parseArgs(argc, argv, graphicsConfig);
@@ -114,7 +117,7 @@ int main(int argc, const char** argv)
 		fprintf(stderr, "\nUsage: Vector.exe {opengl|dx11|dx12|vulkan} [options]\n"
 						"  options:\n"
 						"\t-f, --fullscreen\tStart in fullscreen mode\n"
-						"\t-v, --vsync\tEnable vertical synchronization\n"
+						"\t-v, --vsync\tEnable vertical synchronization (OpenGL might have this enabled by default)\n"
 						"\t-x <x>, --xresolution <x>\tSet horizontal resolution (only in windowed mode), default %d\n"
 						"\t-y <y>, -yresolution <y>\tSet vertical resolution (only in windowed mode), default %d",
 			DEFAULT_XRES, DEFAULT_YRES);
@@ -129,6 +132,6 @@ int main(int argc, const char** argv)
 		return 1;
 	}
 
-	// Start the game loop
+	// Start the main game loop
 	engine.startGame();
 }

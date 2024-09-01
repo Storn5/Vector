@@ -9,10 +9,10 @@
 #endif
 
 #include <cmath>
-#include "GraphicsSystem/OpenGL/OpenGLBackend.h"
+#include "Renderer/OpenGL/OpenGLRenderer.h"
 #include "Utils/Helpers.h"
 
-OpenGLBackend::OpenGLBackend(const GraphicsConfig& config)
+OpenGLRenderer::OpenGLRenderer(const GraphicsConfig& config)
     : m_config(config)
 {
     if (glewInit() != GLEW_OK)
@@ -24,12 +24,12 @@ OpenGLBackend::OpenGLBackend(const GraphicsConfig& config)
     m_startTime = std::chrono::high_resolution_clock::now();
 }
 
-OpenGLBackend::~OpenGLBackend()
+OpenGLRenderer::~OpenGLRenderer()
 {
     
 }
 
-bool OpenGLBackend::testOpenGL()
+bool OpenGLRenderer::testOpenGL()
 {
     bool isOk = true;
     GLenum glError;
@@ -59,7 +59,7 @@ bool OpenGLBackend::testOpenGL()
     return isOk;
 }
 
-unsigned int OpenGLBackend::createShader(const GLenum shaderType, const std::string& shaderSource)
+unsigned int OpenGLRenderer::createShader(const GLenum shaderType, const std::string& shaderSource)
 {
     GLuint shader = glCreateShader(shaderType);
     const char* shaderSourcePtr = shaderSource.c_str();
@@ -83,7 +83,7 @@ unsigned int OpenGLBackend::createShader(const GLenum shaderType, const std::str
     return shader;
 }
 
-unsigned int OpenGLBackend::createShaderProgram(ShaderFile file)
+unsigned int OpenGLRenderer::createShaderProgram(ShaderFile file)
 {
     GLuint program = glCreateProgram();
     GLuint vertexShader = createShader(GL_VERTEX_SHADER, file.vertexShaderSource);
@@ -102,7 +102,7 @@ unsigned int OpenGLBackend::createShaderProgram(ShaderFile file)
     return program;
 }
 
-bool OpenGLBackend::isInitialized()
+bool OpenGLRenderer::isInitialized()
 {
     if (!testOpenGL())
         return false;
@@ -110,7 +110,7 @@ bool OpenGLBackend::isInitialized()
     return true;
 }
 
-bool OpenGLBackend::renderFrame()
+bool OpenGLRenderer::renderFrame()
 {
     auto timeDiff = secondsBetween(m_startTime, std::chrono::high_resolution_clock::now());
 

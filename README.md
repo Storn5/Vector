@@ -32,9 +32,9 @@ A simple 3D game written in C++ with graphics implemented from scratch in Direct
 
 🟢 Configuring settings (command-line args)
 
-&nbsp;&nbsp;&nbsp;&nbsp;🟢 Switch between graphics backends at startup
+&nbsp;&nbsp;&nbsp;&nbsp;🟢 Select graphics API
 
-&nbsp;&nbsp;&nbsp;&nbsp;🔴 Switch graphics backends at runtime
+&nbsp;&nbsp;&nbsp;&nbsp;🔴 Switch graphics API at runtime
 
 &nbsp;&nbsp;&nbsp;&nbsp;🟢 Resolution
 

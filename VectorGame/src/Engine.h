@@ -1,10 +1,9 @@
 #pragma once
 
-#include "GraphicsSystem/GraphicsSystem.h"
+#include "Renderer/Renderer.h"
 #include "ContextManager/ContextManager.h"
 #include "Config.h"
 #include <memory>
-#include <Windows.h>
 
 class Engine
 {
@@ -19,6 +18,6 @@ private:
     Engine& operator=(const Engine&) = delete;
     Engine& operator=(Engine&&) = delete;
 
-    std::unique_ptr<GraphicsSystem> m_graphicsSystem;
+    std::unique_ptr<Renderer> m_renderer;
     std::unique_ptr<ContextManager> m_contextManager;
 };

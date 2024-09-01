@@ -18,7 +18,7 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GraphicsSystem\OpenGL\OpenGLBackend.cpp">
+    <ClCompile Include="src\Renderer\OpenGL\OpenGLRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Utils\Helpers.cpp">
@@ -27,7 +27,7 @@
     <ClCompile Include="src\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GraphicsSystem\DX11\DX11Backend.cpp">
+    <ClCompile Include="src\Renderer\DX11\DX11Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ContextManager\Win32\Win32Manager.cpp">
@@ -38,7 +38,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GraphicsSystem\OpenGL\OpenGLBackend.h">
+    <ClInclude Include="src\Renderer\OpenGL\OpenGLRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Utils\Helpers.h">
@@ -50,13 +50,13 @@
     <ClInclude Include="src\Enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GraphicsSystem\GraphicsSystem.h">
+    <ClInclude Include="src\Renderer\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GraphicsSystem\DX11\DX11Backend.h">
+    <ClInclude Include="src\Renderer\DX11\DX11Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ContextManager\ContextManager.h">

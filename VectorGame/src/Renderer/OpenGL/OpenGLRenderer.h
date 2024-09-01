@@ -1,25 +1,25 @@
 #pragma once
 
 #include "Config.h"
-#include "GraphicsSystem/GraphicsSystem.h"
+#include "Renderer/Renderer.h"
 #include "ShaderFile.h"
 #include <chrono>
 #include <glew.h>
 #include <string>
 
-class OpenGLBackend : public GraphicsSystem
+class OpenGLRenderer : public Renderer
 {
 public:
-    OpenGLBackend(const GraphicsConfig& config);
-    ~OpenGLBackend();
+    OpenGLRenderer(const GraphicsConfig& config);
+    ~OpenGLRenderer();
     bool isInitialized();
     bool renderFrame();
 
 private:
-    OpenGLBackend(const OpenGLBackend&) = delete;
-    OpenGLBackend(OpenGLBackend&&) = delete;
-    OpenGLBackend& operator=(const OpenGLBackend&) = delete;
-    OpenGLBackend& operator=(OpenGLBackend&&) = delete;
+    OpenGLRenderer(const OpenGLRenderer&) = delete;
+    OpenGLRenderer(OpenGLRenderer&&) = delete;
+    OpenGLRenderer& operator=(const OpenGLRenderer&) = delete;
+    OpenGLRenderer& operator=(OpenGLRenderer&&) = delete;
 
     bool testOpenGL();
     unsigned int createShader(const GLenum shaderType, const std::string& shaderSource);

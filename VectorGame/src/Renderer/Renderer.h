@@ -1,6 +1,6 @@
 #pragma once
 
-class GraphicsSystem
+class Renderer
 {
 public:
 	virtual bool renderFrame() = 0;

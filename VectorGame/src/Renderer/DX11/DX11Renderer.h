@@ -4,22 +4,22 @@
 #define GPU_DESC_LENGTH 128
 
 #include "Config.h"
-#include "GraphicsSystem/GraphicsSystem.h"
+#include "Renderer/Renderer.h"
 #include "ContextManager/ContextManager.h"
 #include <string>
 #include <Windows.h>
 #include <d3d11.h>
 #include <DirectXMath.h>
 
-class DX11Backend : public GraphicsSystem
+class DX11Renderer : public Renderer
 {
 public:
-    DX11Backend(const GraphicsConfig& config, const ContextManager& contextManager);
-    ~DX11Backend();
+    DX11Renderer(const GraphicsConfig& config, const ContextManager& contextManager);
+    ~DX11Renderer();
     bool isInitialized();
     bool renderFrame();
-    void BeginScene(float, float, float, float);
-    void EndScene();
+    void startFrame(float, float, float, float);
+    void endFrame();
     ID3D11Device* GetDevice();
     ID3D11DeviceContext* GetDeviceContext();
     void GetProjectionMatrix(DirectX::XMMATRIX&);
@@ -30,25 +30,32 @@ public:
     void ResetViewport();
 
 private:
-    DX11Backend(const DX11Backend&) = delete;
-    DX11Backend(DX11Backend&&) = delete;
-    DX11Backend& operator=(const DX11Backend&) = delete;
-    DX11Backend& operator=(DX11Backend&&) = delete;
+    DX11Renderer(const DX11Renderer&) = delete;
+    DX11Renderer(DX11Renderer&&) = delete;
+    DX11Renderer& operator=(const DX11Renderer&) = delete;
+    DX11Renderer& operator=(DX11Renderer&&) = delete;
 
     unsigned int createShader(const unsigned int shaderType, const std::string& shaderSource);
     unsigned int createShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
 
+    // Configuration
     GraphicsConfig m_config;
+    
+    // Device
     int m_gpuMemory;
     char m_gpuDescription[GPU_DESC_LENGTH];
     IDXGISwapChain* m_swapChain;
     ID3D11Device* m_device;
     ID3D11DeviceContext* m_deviceContext;
+
+    // Main target view texture and stencil buffer
     ID3D11RenderTargetView* m_renderTargetView;
     ID3D11Texture2D* m_depthStencilBuffer;
     ID3D11DepthStencilState* m_depthStencilState;
     ID3D11DepthStencilView* m_depthStencilView;
     ID3D11RasterizerState* m_rasterState;
+
+    // Matrices
     DirectX::XMMATRIX m_projectionMatrix;
     DirectX::XMMATRIX m_worldMatrix;
     DirectX::XMMATRIX m_orthoMatrix;
