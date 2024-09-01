@@ -57,7 +57,7 @@ DX11Renderer::DX11Renderer(const GraphicsConfig& config, const ContextManager& c
 		ASSERT(!FAILED(result))
 
 		// Convert the name of the graphics card to a character array and store it
-		error = wcstombs_s(&stringLength, m_gpuDescription, GPU_DESC_LENGTH, adapterDesc.Description, GPU_DESC_LENGTH);
+		error = wcstombs_s(&stringLength, m_gpuDescription, gpuDescLength, adapterDesc.Description, gpuDescLength);
 		ASSERT(error == 0)
 
 		fprintf(stdout, "%d. GPU description (wide): %S\n", i, adapterDesc.Description);
@@ -84,7 +84,7 @@ DX11Renderer::DX11Renderer(const GraphicsConfig& config, const ContextManager& c
 		ASSERT(!FAILED(result))
 
 		m_gpuMemory = (int)(adapterDesc.DedicatedVideoMemory / 1024 / 1024);
-		error = wcstombs_s(&stringLength, m_gpuDescription, GPU_DESC_LENGTH, adapterDesc.Description, GPU_DESC_LENGTH);
+		error = wcstombs_s(&stringLength, m_gpuDescription, gpuDescLength, adapterDesc.Description, gpuDescLength);
 		ASSERT(error == 0)
 
 		fprintf(stdout, "Selected GPU %d %s\n", i, m_gpuDescription);
@@ -421,7 +421,7 @@ void DX11Renderer::GetOrthoMatrix(DirectX::XMMATRIX& orthoMatrix)
 
 void DX11Renderer::GetVideoCardInfo(char* cardName, int& memory)
 {
-	strcpy_s(cardName, GPU_DESC_LENGTH, m_gpuDescription);
+	strcpy_s(cardName, gpuDescLength, m_gpuDescription);
 	memory = m_gpuMemory;
 	return;
 }

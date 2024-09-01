@@ -1,13 +1,5 @@
 #define WIN32_LEAN_AND_MEAN
 
-#define DEFAULT_FULLSCREEN false
-#define DEFAULT_VSYNC false
-#define DEFAULT_XRES 800
-#define DEFAULT_YRES 600
-#define DEFAULT_REFRESH_RATE 60
-#define DEFAULT_NEAR_PLANE 0.3f
-#define DEFAULT_FAR_PLANE 1000.0f
-
 #include "Config.h"
 #include "Engine.h"
 #include "Enums.h"
@@ -102,13 +94,13 @@ int main(int argc, const char** argv)
 	{
 		"Vector",				// Window name
 		RendererEnum::OPENGL,	// Graphics API
-		DEFAULT_FULLSCREEN,		// Fullscreen
-		DEFAULT_VSYNC,			// V-Sync
-		DEFAULT_XRES,			// X resolution
-		DEFAULT_YRES,			// Y resolution
-		DEFAULT_REFRESH_RATE,	// Refresh rate
-		DEFAULT_NEAR_PLANE,		// Near clipping plane
-		DEFAULT_FAR_PLANE		// Far clipping plane
+		false,					// Fullscreen
+		false,					// V-Sync
+		800,					// X resolution
+		600,					// Y resolution
+		60,						// Refresh rate
+		0.3f,					// Near clipping plane
+		1000.0f					// Far clipping plane
 	};
 	// Read settings from command-line args
 	int errorCode = parseArgs(argc, argv, graphicsConfig);
@@ -120,7 +112,7 @@ int main(int argc, const char** argv)
 						"\t-v, --vsync\tEnable vertical synchronization (OpenGL might have this enabled by default)\n"
 						"\t-x <x>, --xresolution <x>\tSet horizontal resolution (only in windowed mode), default %d\n"
 						"\t-y <y>, -yresolution <y>\tSet vertical resolution (only in windowed mode), default %d",
-			DEFAULT_XRES, DEFAULT_YRES);
+			800, 600);
 		return 1;
 	}
 

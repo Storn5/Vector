@@ -1,7 +1,6 @@
 #pragma once
 
 #define WIN32_LEAN_AND_MEAN
-#define GPU_DESC_LENGTH 128
 
 #include "Config.h"
 #include "Renderer/Renderer.h"
@@ -42,8 +41,9 @@ private:
     GraphicsConfig m_config;
     
     // Device
+    const static unsigned int gpuDescLength = 128;
     int m_gpuMemory;
-    char m_gpuDescription[GPU_DESC_LENGTH];
+    char m_gpuDescription[gpuDescLength];
     IDXGISwapChain* m_swapChain;
     ID3D11Device* m_device;
     ID3D11DeviceContext* m_deviceContext;
