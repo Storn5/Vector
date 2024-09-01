@@ -9,32 +9,33 @@ DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& con
     : m_config(config)
 {
 	// Initialize all pointers & other variables needed for DirectX initialization
-	m_swapChain = 0;
-	m_device = 0;
-	m_deviceContext = 0;
-	m_renderTargetView = 0;
-	m_depthStencilBuffer = 0;
-	m_depthStencilState = 0;
-	m_depthStencilView = 0;
-	m_rasterState = 0;
+	m_swapChain = nullptr;
+	m_device = nullptr;
+	m_deviceContext = nullptr;
+	m_renderTargetView = nullptr;
+	m_depthStencilBuffer = nullptr;
+	m_depthStencilState = nullptr;
+	m_depthStencilView = nullptr;
+	m_rasterState = nullptr;
+	m_gpuMemory = 0;
 
-	HRESULT result;
-	IDXGIFactory* factory;
-	IDXGIAdapter* adapter;
+	HRESULT result = 0;
+	IDXGIFactory* factory = nullptr;
+	IDXGIAdapter* adapter = nullptr;
 	IDXGIOutput* adapterOutput;
-	unsigned int numModes, numerator, denominator;
-	unsigned long long stringLength;
-	DXGI_MODE_DESC* displayModeList;
+	unsigned int numModes = 0, numerator = 0, denominator = 0;
+	unsigned long long stringLength = 0;
+	DXGI_MODE_DESC* displayModeList = nullptr;
 	DXGI_ADAPTER_DESC adapterDesc;
-	int error;
+	int error = 0;
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
-	ID3D11Texture2D* backBufferPtr;
+	ID3D11Texture2D* backBufferPtr = nullptr;
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
 	D3D11_RASTERIZER_DESC rasterDesc;
-	float fieldOfView, screenAspect;
+	float fieldOfView = 0.0f, screenAspect = 0.0f;
 
 
 
@@ -56,7 +57,7 @@ DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& con
 		ASSERT(!FAILED(result))
 
 		// Convert the name of the graphics card to a character array and store it
-		error = wcstombs_s(&stringLength, m_gpuDescription, 128, adapterDesc.Description, 128);
+		error = wcstombs_s(&stringLength, m_gpuDescription, GPU_DESC_LENGTH, adapterDesc.Description, GPU_DESC_LENGTH);
 		ASSERT(error == 0)
 
 		fprintf(stdout, "%d. GPU description (wide): %S\n", i, adapterDesc.Description);
@@ -83,7 +84,7 @@ DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& con
 		ASSERT(!FAILED(result))
 
 		m_gpuMemory = (int)(adapterDesc.DedicatedVideoMemory / 1024 / 1024);
-		error = wcstombs_s(&stringLength, m_gpuDescription, 128, adapterDesc.Description, 128);
+		error = wcstombs_s(&stringLength, m_gpuDescription, GPU_DESC_LENGTH, adapterDesc.Description, GPU_DESC_LENGTH);
 		ASSERT(error == 0)
 
 		fprintf(stdout, "Selected GPU %d %s\n", i, m_gpuDescription);
@@ -94,10 +95,8 @@ DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& con
 	ASSERT(!FAILED(result))
 
 	// Get the number of modes that fit the DXGI_FORMAT_R8G8B8A8_UNORM display format for the adapter output (monitor)
-	result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, NULL);
+	result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, nullptr);
 	ASSERT(!FAILED(result))
-
-	fprintf(stdout, "Number of modes that fit the DXGI_FORMAT_R8G8B8A8_UNORM display format for the monitor: %d\n", numModes);
 
 	// Create a list to hold all the possible display modes for this monitor/graphics card combination
 	displayModeList = new DXGI_MODE_DESC[numModes];
@@ -117,6 +116,7 @@ DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& con
 				// Store the numerator and denominator of the refresh rate
 				numerator = displayModeList[i].RefreshRate.Numerator;
 				denominator = displayModeList[i].RefreshRate.Denominator;
+				m_config.refreshRate = numerator / denominator;
 				break;
 			}
 		}
@@ -124,13 +124,13 @@ DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& con
 
 	// Clean up unnecessary memory
 	delete[] displayModeList;
-	displayModeList = 0;
+	displayModeList = nullptr;
 	adapterOutput->Release();
-	adapterOutput = 0;
+	adapterOutput = nullptr;
 	adapter->Release();
-	adapter = 0;
+	adapter = nullptr;
 	factory->Release();
-	factory = 0;
+	factory = nullptr;
 
 
 
@@ -190,8 +190,8 @@ DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& con
 	swapChainDesc.Flags = 0;
 
 	// Create the swap chain, Direct3D device, and Direct3D device context
-	result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &featureLevel, 1,
-		D3D11_SDK_VERSION, &swapChainDesc, &m_swapChain, &m_device, NULL, &m_deviceContext);
+	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, &featureLevel, 1,
+		D3D11_SDK_VERSION, &swapChainDesc, &m_swapChain, &m_device, nullptr, &m_deviceContext);
 	ASSERT(!FAILED(result))
 
 	// Get the pointer to the back buffer
@@ -199,12 +199,12 @@ DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& con
 	ASSERT(!FAILED(result))
 
 	// Create the render target view with the back buffer pointer
-	result = m_device->CreateRenderTargetView(backBufferPtr, NULL, &m_renderTargetView);
+	result = m_device->CreateRenderTargetView(backBufferPtr, nullptr, &m_renderTargetView);
 	ASSERT(!FAILED(result))
 
 	// Release pointer to the back buffer as we no longer need it
 	backBufferPtr->Release();
-	backBufferPtr = 0;
+	backBufferPtr = nullptr;
 
 	// Initialize the description of the depth buffer
 	ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
@@ -223,7 +223,7 @@ DX11Backend::DX11Backend(const GraphicsConfig& config, const ContextManager& con
 	depthBufferDesc.MiscFlags = 0;
 
 	// Create the texture for the depth buffer using the filled out description
-	result = m_device->CreateTexture2D(&depthBufferDesc, NULL, &m_depthStencilBuffer);
+	result = m_device->CreateTexture2D(&depthBufferDesc, nullptr, &m_depthStencilBuffer);
 	ASSERT(!FAILED(result))
 
 	// Initialize the description of the stencil state
@@ -321,55 +321,55 @@ DX11Backend::~DX11Backend()
 	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
 	if (m_swapChain)
 	{
-		m_swapChain->SetFullscreenState(false, NULL);
+		m_swapChain->SetFullscreenState(false, nullptr);
 	}
 
 	if (m_rasterState)
 	{
 		m_rasterState->Release();
-		m_rasterState = 0;
+		m_rasterState = nullptr;
 	}
 
 	if (m_depthStencilView)
 	{
 		m_depthStencilView->Release();
-		m_depthStencilView = 0;
+		m_depthStencilView = nullptr;
 	}
 
 	if (m_depthStencilState)
 	{
 		m_depthStencilState->Release();
-		m_depthStencilState = 0;
+		m_depthStencilState = nullptr;
 	}
 
 	if (m_depthStencilBuffer)
 	{
 		m_depthStencilBuffer->Release();
-		m_depthStencilBuffer = 0;
+		m_depthStencilBuffer = nullptr;
 	}
 
 	if (m_renderTargetView)
 	{
 		m_renderTargetView->Release();
-		m_renderTargetView = 0;
+		m_renderTargetView = nullptr;
 	}
 
 	if (m_deviceContext)
 	{
 		m_deviceContext->Release();
-		m_deviceContext = 0;
+		m_deviceContext = nullptr;
 	}
 
 	if (m_device)
 	{
 		m_device->Release();
-		m_device = 0;
+		m_device = nullptr;
 	}
 
 	if (m_swapChain)
 	{
 		m_swapChain->Release();
-		m_swapChain = 0;
+		m_swapChain = nullptr;
 	}
 }
 
@@ -439,7 +439,7 @@ void DX11Backend::GetOrthoMatrix(DirectX::XMMATRIX& orthoMatrix)
 
 void DX11Backend::GetVideoCardInfo(char* cardName, int& memory)
 {
-	strcpy_s(cardName, 128, m_gpuDescription);
+	strcpy_s(cardName, GPU_DESC_LENGTH, m_gpuDescription);
 	memory = m_gpuMemory;
 	return;
 }

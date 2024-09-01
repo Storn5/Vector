@@ -7,9 +7,3 @@ enum class GraphicsBackendEnum
 	DX11 = 2,
 	DX12 = 3,
 };
-
-enum class ContextManagerEnum
-{
-	Win32 = 0,
-	GLFW = 1,
-};

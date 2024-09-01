@@ -7,10 +7,10 @@ Win32Manager::Win32Manager(const GraphicsConfig& config)
 	WNDCLASSEX wc;
 	DEVMODE dmScreenSettings;
 	unsigned long wStyle = 0;
-	int posX, posY;
+	int posX = 0, posY = 0;
 
 	// Get the instance of this application
-	m_hInstance = GetModuleHandle(NULL);
+	m_hInstance = GetModuleHandle(nullptr);
 
 	// Setup the window class
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -22,7 +22,7 @@ Win32Manager::Win32Manager(const GraphicsConfig& config)
 	wc.hIconSm = wc.hIcon;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-	wc.lpszMenuName = NULL;
+	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = m_config.windowName;
 	wc.cbSize = sizeof(WNDCLASSEX);
 
@@ -47,9 +47,6 @@ Win32Manager::Win32Manager(const GraphicsConfig& config)
 		// Change the display settings to full screen
 		ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
 		wStyle = WS_POPUP;
-
-		// Set the position of the window to the top left corner
-		posX = posY = 0;
 	}
 	else
 	{
@@ -62,7 +59,7 @@ Win32Manager::Win32Manager(const GraphicsConfig& config)
 	// Create the window with the screen settings and get the handle to it
 	m_hWnd = CreateWindowEx(WS_EX_APPWINDOW, m_config.windowName, m_config.windowName,
 		WS_CLIPSIBLINGS | WS_CLIPCHILDREN | wStyle | WS_VISIBLE,
-		posX, posY, m_config.xRes, m_config.yRes, NULL, NULL, m_hInstance, NULL);
+		posX, posY, m_config.xRes, m_config.yRes, NULL, NULL, m_hInstance, nullptr);
 
 	// Set focus
 	SetForegroundWindow(m_hWnd);
@@ -80,7 +77,7 @@ Win32Manager::~Win32Manager()
 	// Fix the display settings if leaving full screen mode
 	if (m_config.isFullscreen)
 	{
-		ChangeDisplaySettings(NULL, 0);
+		ChangeDisplaySettings(nullptr, 0);
 	}
 
 	// Destroy the window

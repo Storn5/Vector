@@ -134,7 +134,7 @@ bool OpenGLBackend::renderFrame()
     GLCALL(glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer));
 
     GLCALL(glEnableVertexAttribArray(0));
-    GLCALL(glVertexAttribPointer(0, 2, GL_DOUBLE, GL_FALSE, 2 * sizeof(double), 0));
+    GLCALL(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0));
 
     auto shaderFile = parseShaderFile("res/Shaders/Shader.glsl");
     GLuint shader = createShaderProgram(shaderFile);
@@ -142,16 +142,16 @@ bool OpenGLBackend::renderFrame()
 
     GLCALL(GLint shaderLocation = glGetUniformLocation(shader, "u_Color"));
 
-    double triangleVertices[10] =
+    float triangleVertices[10] =
     {
-        0.0, 0.0,
-        0.0, 0.3 * abs(sin(timeDiff)),
-        0.3 * abs(sin(timeDiff)), 0.0,
-        0.0, -0.3 * abs(sin(timeDiff)),
-        -0.3 * abs(sin(timeDiff)), 0.0
+        0.0f, 0.0f,
+        0.0f, 0.3f * abs(sin(timeDiff)),
+        0.3f * abs(sin(timeDiff)), 0.0f,
+        0.0f, -0.3f * abs(sin(timeDiff)),
+        -0.3f * abs(sin(timeDiff)), 0.0f
     };
     GLCALL(glBindVertexArray(vao));
-    GLCALL(glBufferData(GL_ARRAY_BUFFER, 2 * num_vertices * sizeof(double), triangleVertices, GL_DYNAMIC_DRAW));
+    GLCALL(glBufferData(GL_ARRAY_BUFFER, 2 * num_vertices * sizeof(float), triangleVertices, GL_DYNAMIC_DRAW));
     GLCALL(glUniform4f(shaderLocation, abs(sin(timeDiff * 2)), abs(cos(timeDiff)), abs(sin((timeDiff / 2) + M_PI)), 1.0f));
 
     // Render here

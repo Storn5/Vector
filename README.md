@@ -5,17 +5,17 @@ A simple 3D game written in C++ with graphics implemented from scratch in Direct
 🟢 - done, 🚧 - WIP, 🔴 - planned
 
 ### Graphics APIs
-🚧 OpenGL 4.6 graphics backend (cross-platform)
-
-&nbsp;&nbsp;&nbsp;&nbsp;🔴 GPU selection similar to the DirectX one
-
 🚧 DirectX 11 graphics backend (Windows-only)
 
-&nbsp;&nbsp;&nbsp;&nbsp;🔴 Fix nVidia GPU not allowing selecting the screen
+&nbsp;&nbsp;&nbsp;&nbsp;🟢 Support for NVIDIA Optimus and AmdPowerXpress
 
 &nbsp;&nbsp;&nbsp;&nbsp;🔴 Make the GPU selection happen in the window instead of the terminal
 
 🔴 DirectX 12 graphics backend (Windows-only)
+
+🚧 OpenGL 4.6 graphics backend (cross-platform)
+
+&nbsp;&nbsp;&nbsp;&nbsp;🔴 GPU selection
 
 🔴 Vulkan graphics backend (cross-platform)
 
@@ -36,9 +36,15 @@ A simple 3D game written in C++ with graphics implemented from scratch in Direct
 
 &nbsp;&nbsp;&nbsp;&nbsp;🔴 Switch graphics backends at runtime
 
+&nbsp;&nbsp;&nbsp;&nbsp;🟢 Resolution
+
+&nbsp;&nbsp;&nbsp;&nbsp;🟢 V-Sync
+
 &nbsp;&nbsp;&nbsp;&nbsp;🟢 Fullscreen/windowed mode
 
-&nbsp;&nbsp;&nbsp;&nbsp;🔴 Resolution
+&nbsp;&nbsp;&nbsp;&nbsp;🔴 Borderless fullscreen support
+
+&nbsp;&nbsp;&nbsp;&nbsp;🔴 Switch windowe/fullscreen/borderless and V-Sync at runtime
 
 🔴 Replace GLFW and Win32 with a common cross-platform windowing API (SDL, SFML, QT?)
 

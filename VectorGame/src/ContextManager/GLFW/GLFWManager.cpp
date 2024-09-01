@@ -16,13 +16,28 @@ GLFWManager::GLFWManager(const GraphicsConfig& config)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+	int posX = 0, posY = 0;
+
 	GLFWmonitor* monitor = nullptr;
 	if (m_config.isFullscreen)
 	{
 		monitor = glfwGetPrimaryMonitor();
-		const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 		m_config.xRes = mode->width;
 		m_config.yRes = mode->height;
+		m_config.refreshRate = mode->refreshRate;
+		glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+		glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+		glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+		glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+	}
+	else
+	{
+		monitor = glfwGetPrimaryMonitor();
+		const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+		posX = (mode->width - m_config.xRes) / 2;
+		posY = (mode->height - m_config.yRes) / 2;
+		monitor = nullptr;
 	}
 
 	// Create a window and its OpenGL context
@@ -36,7 +51,20 @@ GLFWManager::GLFWManager(const GraphicsConfig& config)
 
 	// Make the window's context current
 	glfwMakeContextCurrent(m_window);
-	glfwSwapInterval(1);
+
+	// Configure swap interval depending on vSync
+	if (m_config.vSync)
+	{
+		// Lock to screen refresh rate
+		glfwSetWindowMonitor(m_window, monitor, posX, posY, m_config.xRes, m_config.yRes, m_config.refreshRate);
+		glfwSwapInterval(1);
+	}
+	else
+	{
+		// Present as fast as possible
+		glfwSetWindowMonitor(m_window, monitor, posX, posY, m_config.xRes, m_config.yRes, GLFW_DONT_CARE);
+		glfwSwapInterval(0);
+	}
 }
 
 GLFWManager::~GLFWManager()
@@ -67,7 +95,7 @@ bool GLFWManager::preFrame()
 
 bool GLFWManager::postFrame()
 {
-	// Swap front and back buffers
+	// Swap front and back buffers, if vSync is enabled this will wait for vSync
 	glfwSwapBuffers(m_window);
 
 	// Poll for and process events

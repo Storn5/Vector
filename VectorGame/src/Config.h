@@ -4,11 +4,11 @@
 
 struct GraphicsConfig
 {
-	GraphicsBackendEnum graphicsBackend;
-	ContextManagerEnum contextManager;
 	const char* windowName;
+	GraphicsBackendEnum graphicsBackend;
 	bool isFullscreen;
-	unsigned int xRes = 0, yRes = 0;
 	bool vSync;
+	unsigned int xRes = 0, yRes = 0;
+	unsigned int refreshRate;
 	float nearPlane, farPlane;
 };
