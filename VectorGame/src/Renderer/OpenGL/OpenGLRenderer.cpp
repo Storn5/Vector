@@ -8,9 +8,11 @@
 #define GLCALL(x) x
 #endif
 
-#include <cmath>
 #include "Renderer/OpenGL/OpenGLRenderer.h"
 #include "Utils/Helpers.h"
+#include "ShaderFile.h"
+#include <sstream>
+#include <fstream>
 
 OpenGLRenderer::OpenGLRenderer(const GraphicsConfig& config)
     : m_config(config)
@@ -100,6 +102,49 @@ unsigned int OpenGLRenderer::createShaderProgram(ShaderFile file)
     glDeleteShader(fragmentShader);
 
     return program;
+}
+
+ShaderFile OpenGLRenderer::parseShaderFile(const std::string& filename)
+{
+    std::ifstream filestream(filename);
+
+    if (!filestream)
+    {
+        fprintf(stderr, "Error parsing shader: file %s cannot be read\n", filename.c_str());
+        return ShaderFile
+        {
+            NULL, NULL
+        };
+    }
+
+    std::string line;
+    std::stringstream ss[2];
+    ShaderType type = ShaderType::NONE;
+    while (getline(filestream, line))
+    {
+        if (line.find("#shader") != std::string::npos)
+        {
+            if (line.find("vertex") != std::string::npos)
+                type = ShaderType::VERTEX;
+            else if (line.find("fragment") != std::string::npos)
+                type = ShaderType::FRAGMENT;
+            else
+            {
+                fprintf(stderr, "Error parsing shader: invalid shader type\n");
+                return ShaderFile
+                {
+                    NULL, NULL
+                };
+            }
+        }
+        else
+            ss[(int)type] << line << "\n";
+    }
+
+    return ShaderFile
+    {
+        ss[0].str(), ss[1].str()
+    };
 }
 
 bool OpenGLRenderer::isInitialized()
